@@ -9,7 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-
+let teamMemberName;
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -23,15 +23,16 @@ inquirer
         },
         {
             type: 'number',
-            message: ''
-        }
+            message: 'How many team members are there?',
+            name: 'numTeamMembers'
+        },
         {
             type: 'input',
             message: 'What is the team member name?',
             name: 'teamMemberName'
         },
         {
-            type: 'checkbox',
+            type: 'list',
             message: `Is ${teamMemberName} an Intern or an Engineer?`,
             name: 'employeeType',
             choices: ['Intern', 'Engineer']
@@ -39,9 +40,10 @@ inquirer
     ])
     .then(function (response) {
         JSON.stringify(response);
-        console.log(response.name);
-        console.log(response.languages);
-        console.log(response.prefMethodComm);
+        console.log(response.teamManagerName);
+        console.log(response.numTeamMembers);
+        console.log(response.teamMemberName);
+        console.log(response.employeeType);
     })
 
 // After the user has input all employees desired, call the `render` function (required
