@@ -56,10 +56,10 @@ function promptNewMember() {
                 type: 'list',
                 message: 'Would you like to add a team member?',
                 name: 'addAnotherMember',
-                choices: ['Y', 'N']
+                choices: ['Yes', 'No']
             }
         ]).then(function (response) {
-            if (response.addAnotherMember === 'Y') {
+            if (response.addAnotherMember === 'Yes') {
                 teamPrompt();
             }
         })
@@ -90,7 +90,7 @@ function teamPrompt() {
                     .prompt([
                         {
                             type: 'input',
-                            message: 'What is this Intern\'s School?',
+                            message: `What is ${name}'s School?`,
                             name: 'internSchool'
                         }
                     ]).then(function (response) {
@@ -104,13 +104,13 @@ function teamPrompt() {
                     .prompt([
                         {
                             type: 'input',
-                            message: 'What is this Engineers\'s Github Profile Name?',
+                            message: `What is this ${name}'s Github Profile Name?`,
                             name: 'engineerGit'
                         }
                     ]).then(function (response) {
                         JSON.stringify(response);
                         console.log(response.engineerGit);
-                        getEmailAndID(response.teamMemberName);
+                        getEmailAndID(name);
                     })
             }
         })
