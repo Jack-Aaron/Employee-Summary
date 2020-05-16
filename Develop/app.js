@@ -25,8 +25,45 @@ inquirer
     ]).then(function (response) {
         JSON.stringify(response);
         console.log(response.teamManagerName);
-        teamPrompt();
+        getEmailAndID(response.teamManagerName);
     })
+
+function getEmailAndID(name) {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: `What is ${name}'s email address?`,
+                name: 'email'
+            },
+            {
+                type: 'number',
+                message: `What is ${name}'s ID number?`,
+                name: 'id'
+            }
+        ]).then(function (response) {
+            JSON.stringify(response);
+            console.log(response.email);
+            console.log(response.id);
+            promptNewMember();
+        })
+}
+
+function promptNewMember() {
+    inquirer
+        .prompt([
+            {
+                type: 'list',
+                message: 'Would you like to add a team member?',
+                name: 'addAnotherMember',
+                choices: ['Y', 'N']
+            }
+        ]).then(function (response) {
+            if (response.addAnotherMember === 'Y') {
+                teamPrompt();
+            }
+        })
+}
 
 function teamPrompt() {
     inquirer
@@ -44,7 +81,8 @@ function teamPrompt() {
             }
         ]).then(function (response) {
             JSON.stringify(response);
-            console.log(response.teamMemberName);
+            let name = response.teamMemberName;
+            console.log(name);
             console.log(response.employeeType);
 
             if (response.employeeType === 'Intern') {
@@ -58,7 +96,7 @@ function teamPrompt() {
                     ]).then(function (response) {
                         JSON.stringify(response);
                         console.log(response.internSchool);
-                        promptNewMember();
+                        getEmailAndID(name);
                     })
             }
             else {
@@ -72,27 +110,13 @@ function teamPrompt() {
                     ]).then(function (response) {
                         JSON.stringify(response);
                         console.log(response.engineerGit);
-                        promptNewMember();
+                        getEmailAndID(response.teamMemberName);
                     })
             }
         })
 }
 
-function promptNewMember() {
-    inquirer
-        .prompt([
-            {
-                type: 'list',
-                message: 'Would you like to add another team member?',
-                name: 'addAnotherMember',
-                choices: ['Y', 'N']
-            }
-        ]).then(function (response) {
-            if (response.addAnotherMember === 'Y') {
-                teamPrompt();
-            }
-        })
-}
+
 
 
 
