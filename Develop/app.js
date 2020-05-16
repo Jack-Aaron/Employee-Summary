@@ -2,6 +2,7 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
+inquirer.registerPrompt('recursive', require('inquirer-recursive'));
 const path = require("path");
 const fs = require("fs");
 
@@ -20,31 +21,81 @@ inquirer
             type: 'input',
             message: 'What is the name of your team manager?',
             name: 'teamManagerName'
-        },
-        {
-            type: 'number',
-            message: 'How many team members are there?',
-            name: 'numTeamMembers'
-        },
-        {
-            type: 'input',
-            message: 'What is the team member name?',
-            name: 'teamMemberName'
-        },
-        {
-            type: 'list',
-            message: `Is ${teamMemberName} an Intern or an Engineer?`,
-            name: 'employeeType',
-            choices: ['Intern', 'Engineer']
         }
-    ])
-    .then(function (response) {
+    ]).then(function (response) {
         JSON.stringify(response);
         console.log(response.teamManagerName);
-        console.log(response.numTeamMembers);
-        console.log(response.teamMemberName);
-        console.log(response.employeeType);
+        teamPrompt();
     })
+
+
+
+        function teamPrompt() {
+            inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        message: 'What is the team member name?',
+                        name: 'teamMemberName'
+                    },
+                    {
+                        type: 'list',
+                        message: `Is ${teamMemberName} an Intern or an Engineer?`,
+                        name: 'employeeType',
+                        choices: ['Intern', 'Engineer']
+                    }
+                ]).then(function (response) {
+                    JSON.stringify(response);
+                    console.log(response.teamMemberName);
+                    console.log(response.employeeType);
+                
+        
+
+        inquirer
+            .prompt([
+                {
+                    type: 'list',
+                    message: 'Would you like to add another team member?',
+                    name: 'addAnotherMember',
+                    choices: ['Y', 'N']
+                }
+            ]).then(function (response) {
+                if (response.addAnotherMember === 'Y') {
+                    teamPrompt();
+                }
+            })
+
+    })
+}
+   
+
+
+
+
+
+        // function Employee(teamMemberName, employeeType) {
+        //     this.teamMemberName = teamMemberName;
+        //     this.employeeType = employeeType;
+        //     this.render = function () {
+        //     };
+        // }
+
+        // class Employee extends Intern {
+        //     constructor(school) {
+
+        //         super(teamMemberName, employeeType);
+        //         this.school = school;
+        //     }
+        // }
+
+        // class Employee extends Engineer {
+        //     constructor(gitHub) {
+
+        //         super(teamMemberName, employeeType);
+        //         this.gitHub = gitHub;
+        //     }
+        // }
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
