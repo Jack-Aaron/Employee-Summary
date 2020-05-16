@@ -28,46 +28,71 @@ inquirer
         teamPrompt();
     })
 
+function teamPrompt() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: 'What is the team member name?',
+                name: 'teamMemberName'
+            },
+            {
+                type: 'list',
+                message: `Is ${teamMemberName} an Intern or an Engineer?`,
+                name: 'employeeType',
+                choices: ['Intern', 'Engineer']
+            }
+        ]).then(function (response) {
+            JSON.stringify(response);
+            console.log(response.teamMemberName);
+            console.log(response.employeeType);
 
-
-        function teamPrompt() {
-            inquirer
-                .prompt([
-                    {
-                        type: 'input',
-                        message: 'What is the team member name?',
-                        name: 'teamMemberName'
-                    },
-                    {
-                        type: 'list',
-                        message: `Is ${teamMemberName} an Intern or an Engineer?`,
-                        name: 'employeeType',
-                        choices: ['Intern', 'Engineer']
-                    }
-                ]).then(function (response) {
-                    JSON.stringify(response);
-                    console.log(response.teamMemberName);
-                    console.log(response.employeeType);
-                
-        
-
-        inquirer
-            .prompt([
-                {
-                    type: 'list',
-                    message: 'Would you like to add another team member?',
-                    name: 'addAnotherMember',
-                    choices: ['Y', 'N']
-                }
-            ]).then(function (response) {
-                if (response.addAnotherMember === 'Y') {
-                    teamPrompt();
-                }
-            })
-
-    })
+            if (response.employeeType === 'Intern') {
+                inquirer
+                    .prompt([
+                        {
+                            type: 'input',
+                            message: 'What is this Intern\'s School?',
+                            name: 'internSchool'
+                        }
+                    ]).then(function (response) {
+                        JSON.stringify(response);
+                        console.log(response.internSchool);
+                        promptNewMember();
+                    })
+            }
+            else {
+                inquirer
+                    .prompt([
+                        {
+                            type: 'input',
+                            message: 'What is this Engineers\'s Github Profile Name?',
+                            name: 'engineerGit'
+                        }
+                    ]).then(function (response) {
+                        JSON.stringify(response);
+                        console.log(response.engineerGit);
+                        promptNewMember();
+                    })
+            }
+        })
 }
-   
+
+function promptNewMember() {
+    inquirer
+        .prompt([
+            {
+                type: 'list',
+                message: 'Would you like to add another team member?',
+                name: 'addAnotherMember',
+                choices: ['Y', 'N']
+            }
+        ]).then(function (response) {
+            if (response.addAnotherMember === 'Y') {
+                teamPrompt();
+            }
+        })
+}
 
 
 
