@@ -25,10 +25,10 @@ inquirer
     ]).then(function (response) {
         JSON.stringify(response);
         console.log(response.teamManagerName);
-        getEmailAndID(response.teamManagerName);
+        getEmailAndID(response.teamManagerName, 'Manager');
     })
 
-function getEmailAndID(name) {
+function getEmailAndID(name, type) {
     inquirer
         .prompt([
             {
@@ -45,6 +45,7 @@ function getEmailAndID(name) {
             JSON.stringify(response);
             console.log(response.email);
             console.log(response.id);
+            new Employee(name, type, response.email, response.id);
             promptNewMember();
         })
 }
@@ -115,36 +116,6 @@ function teamPrompt() {
             }
         })
 }
-
-
-
-
-
-
-
-        // function Employee(teamMemberName, employeeType) {
-        //     this.teamMemberName = teamMemberName;
-        //     this.employeeType = employeeType;
-        //     this.render = function () {
-        //     };
-        // }
-
-        // class Employee extends Intern {
-        //     constructor(school) {
-
-        //         super(teamMemberName, employeeType);
-        //         this.school = school;
-        //     }
-        // }
-
-        // class Employee extends Engineer {
-        //     constructor(gitHub) {
-
-        //         super(teamMemberName, employeeType);
-        //         this.gitHub = gitHub;
-        //     }
-        // }
-
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
