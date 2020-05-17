@@ -44,7 +44,6 @@ inquirer
         promptNewMember();
     })
 
-    
 function promptNewMember() {
     inquirer
         .prompt([
@@ -87,7 +86,6 @@ function teamPrompt() {
             }
         ]).then(function (response) {
             JSON.stringify(response);
-            console.log(response.name);
             console.log(response.type);
 
             if (response.type === 'Intern') {
@@ -98,9 +96,10 @@ function teamPrompt() {
                             message: `What is ${response.name}'s School?`,
                             name: 'school'
                         }
-                    ]).then(function (response) {
-                        JSON.stringify(response);
-                        console.log(response.school);
+                    ]).then(function (schoolResponse) {
+                        JSON.stringify(schoolResponse);
+                        const intern = new Intern(response.name, response.id, response.email, schoolResponse.school);
+                        console.log(intern);
                         promptNewMember();
                     })
             }
@@ -112,9 +111,10 @@ function teamPrompt() {
                             message: `What is ${response.name}'s Github Profile Name?`,
                             name: 'github'
                         }
-                    ]).then(function (response) {
-                        JSON.stringify(response);
-                        console.log(response.github);
+                    ]).then(function (githubResponse) {
+                        JSON.stringify(githubResponse);
+                        const engineer = new Engineer(response.name, response.id, response.email, githubResponse.github);
+                        console.log(engineer);
                         promptNewMember();
                     })
             }
