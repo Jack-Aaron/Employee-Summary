@@ -23,22 +23,22 @@ inquirer
     .prompt([
         {
             type: 'input',
-            message: 'What is the name of your Team Manager?',
+            message: '\n What is the name of your Team Manager?',
             name: 'name'
         },
         {
             type: 'number',
-            message: 'What is the Team Manager\'s ID number?',
+            message: '\nWhat is the Team Manager\'s ID number?',
             name: 'id'
         },
         {
             type: 'input',
-            message: 'What is the Team Manager\'s email address?',
+            message: '\nWhat is the Team Manager\'s email address?',
             name: 'email'
         },
         {
             type: 'number',
-            message: 'What is the Team Manager\'s Office Number?',
+            message: '\nWhat is the Team Manager\'s Office Number?',
             name: 'officeNumber'
         }
     ]).then(function (response) {
@@ -58,7 +58,7 @@ function promptNewMember() {
         .prompt([
             {
                 type: 'list',
-                message: 'Would you like to add a team member?',
+                message: '\nWould you like to add a team member?',
                 name: 'addAnotherMember',
                 choices: ['Yes', 'No']
             }
@@ -68,9 +68,12 @@ function promptNewMember() {
             }
             else {
                 const html = render(employees);
-                console.log(html);
-                // writeFileAsync(outputPath, html, "utf-8");
+                // console.log(html);
+                return writeFileAsync(outputPath, html, 'utf-8');
             }
+        })
+        .catch(function (err) {
+            console.log(err);
         })
 }
 
@@ -79,35 +82,53 @@ function teamPrompt() {
         .prompt([
             {
                 type: 'input',
-                message: 'What is the Team Member\'s name?',
+                message: '\nWhat is the Team Member\'s name?',
                 name: 'name'
             },
             {
                 type: 'number',
-                message: `What is Team Member\'s ID number?`,
+                message: `\nWhat is Team Member\'s ID number?`,
                 name: 'id'
             },
             {
                 type: 'input',
-                message: `What is Team Member\'s email address?`,
+                message: `\nWhat is Team Member\'s email address?`,
                 name: 'email'
             },
             {
                 type: 'list',
-                message: `Is the Team Member an Intern or an Engineer?`,
+                message: `\nIs the Team Member an Engineer or an Intern?`,
                 name: 'type',
-                choices: ['Intern', 'Engineer']
+                choices: ['Engineer', 'Intern']
             }
         ]).then(function (response) {
             JSON.stringify(response);
-            console.log(response.type);
 
-            if (response.type === 'Intern') {
+            if (response.type === 'Engineer') {
                 inquirer
                     .prompt([
                         {
                             type: 'input',
-                            message: `What is ${response.name}'s School?`,
+                            message: `\nWhat is ${response.name}'s Github Profile Name?`,
+                            name: 'github'
+                        }
+                    ]).then(function (githubResponse) {
+                        JSON.stringify(githubResponse);
+                        const engineer = new Engineer(
+                            response.name,
+                            response.id,
+                            response.email,
+                            githubResponse.github);
+                        employees.push(engineer);
+                        promptNewMember();
+                    })
+            }
+            else {
+                inquirer
+                    .prompt([
+                        {
+                            type: 'input',
+                            message: `\nWhat is ${response.name}'s School?`,
                             name: 'school'
                         }
                     ]).then(function (schoolResponse) {
@@ -119,25 +140,6 @@ function teamPrompt() {
                             schoolResponse.school
                         );
                         employees.push(intern);
-                        promptNewMember();
-                    })
-            }
-            else {
-                inquirer
-                    .prompt([
-                        {
-                            type: 'input',
-                            message: `What is ${response.name}'s Github Profile Name?`,
-                            name: 'github'
-                        }
-                    ]).then(function (githubResponse) {
-                        JSON.stringify(githubResponse);
-                        const engineer = new Engineer(
-                            response.name,
-                            response.id,
-                            response.email,
-                            githubResponse.github);
-                        employees.push(engineer);
                         promptNewMember();
                     })
             }
