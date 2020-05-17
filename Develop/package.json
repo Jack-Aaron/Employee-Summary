@@ -23,7 +23,6 @@
   "dependencies": {
     "email-validator": "^2.0.4",
     "inquirer": "^6.3.1",
-    "inquirer-recursive": "0.0.6",
     "validate": "^5.1.0"
   },
   "devDependencies": {
