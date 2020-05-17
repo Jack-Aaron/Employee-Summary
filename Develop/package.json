@@ -22,7 +22,8 @@
   "homepage": "https://github.com/stevetrilogy/unit10hw#readme",
   "dependencies": {
     "inquirer": "^6.3.1",
-    "inquirer-recursive": "0.0.6"
+    "inquirer-recursive": "0.0.6",
+    "validate": "^5.1.0"
   },
   "devDependencies": {
     "jest": "^24.8.0"

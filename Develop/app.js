@@ -19,27 +19,39 @@ const employees = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
+function validateInput(input) { return input !== ''; }
+
+function validateNumber(number) //https://stackoverflow.com/questions/57321266/how-to-test-inquirer-validation
+{
+    const reg = /^\d+$/;
+    return reg.test(number) || '***Input Must Be A Number***\n *Press Up Arrow and delete Line to try again.*';
+}
+
 inquirer
     .prompt([
         {
             type: 'input',
             message: '\n What is the name of your Team Manager?',
-            name: 'name'
+            name: 'name',
+            validate: validateInput
         },
         {
             type: 'number',
             message: '\nWhat is the Team Manager\'s ID number?',
-            name: 'id'
+            name: 'id',
+            validate: validateNumber
         },
         {
             type: 'input',
             message: '\nWhat is the Team Manager\'s email address?',
-            name: 'email'
+            name: 'email',
+            validate: validateInput
         },
         {
             type: 'number',
             message: '\nWhat is the Team Manager\'s Office Number?',
-            name: 'officeNumber'
+            name: 'officeNumber',
+            validate: validateNumber
         }
     ]).then(function (response) {
         JSON.stringify(response);
@@ -83,17 +95,20 @@ function teamPrompt() {
             {
                 type: 'input',
                 message: '\nWhat is the Team Member\'s name?',
-                name: 'name'
+                name: 'name',
+                validate: validateInput
             },
             {
                 type: 'number',
                 message: `\nWhat is Team Member\'s ID number?`,
-                name: 'id'
+                name: 'id',
+                validate: validateNumber
             },
             {
                 type: 'input',
                 message: `\nWhat is Team Member\'s email address?`,
-                name: 'email'
+                name: 'email',
+                validate: validateInput
             },
             {
                 type: 'list',
@@ -110,7 +125,8 @@ function teamPrompt() {
                         {
                             type: 'input',
                             message: `\nWhat is ${response.name}'s Github Profile Name?`,
-                            name: 'github'
+                            name: 'github',
+                            validate: validateInput
                         }
                     ]).then(function (githubResponse) {
                         JSON.stringify(githubResponse);
@@ -129,7 +145,8 @@ function teamPrompt() {
                         {
                             type: 'input',
                             message: `\nWhat is ${response.name}'s School?`,
-                            name: 'school'
+                            name: 'school',
+                            validate: validateInput
                         }
                     ]).then(function (schoolResponse) {
                         JSON.stringify(schoolResponse);
