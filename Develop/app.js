@@ -41,31 +41,10 @@ inquirer
         JSON.stringify(response);
         const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
         console.log(manager);
+        promptNewMember();
     })
 
-function getEmailAndID(name, officeNumber) {
-    inquirer 
-        .prompt([
-            {
-                type: 'input',
-                message: `What is ${name}'s email address?`,
-                name: 'email'
-            },
-            {
-                type: 'number',
-                message: `What is ${name}'s ID number?`,
-                name: 'id'
-            }
-        ]).then(function (response) {
-            JSON.stringify(response);
-            console.log(response.email);
-            console.log(response.id);
-            // Manager = new Manager(name, response.id, response.email, officeNumber);
-            //console.log(manager);
-            promptNewMember();
-        })
-}
-
+    
 function promptNewMember() {
     inquirer
         .prompt([
@@ -87,33 +66,42 @@ function teamPrompt() {
         .prompt([
             {
                 type: 'input',
-                message: 'What is the team member name?',
-                name: 'teamMemberName'
+                message: 'What is the Team Member\'s name?',
+                name: 'name'
+            },
+            {
+                type: 'number',
+                message: `What is Team Member\'s ID number?`,
+                name: 'id'
+            },
+            {
+                type: 'input',
+                message: `What is Team Member\'s email address?`,
+                name: 'email'
             },
             {
                 type: 'list',
-                message: `Is ${teamMemberName} an Intern or an Engineer?`,
-                name: 'employeeType',
+                message: `Is the Team Member an Intern or an Engineer?`,
+                name: 'type',
                 choices: ['Intern', 'Engineer']
             }
         ]).then(function (response) {
             JSON.stringify(response);
-            let name = response.teamMemberName;
-            console.log(name);
-            console.log(response.employeeType);
+            console.log(response.name);
+            console.log(response.type);
 
-            if (response.employeeType === 'Intern') {
+            if (response.type === 'Intern') {
                 inquirer
                     .prompt([
                         {
                             type: 'input',
-                            message: `What is ${name}'s School?`,
-                            name: 'internSchool'
+                            message: `What is ${response.name}'s School?`,
+                            name: 'school'
                         }
                     ]).then(function (response) {
                         JSON.stringify(response);
-                        console.log(response.internSchool);
-                        getEmailAndID(name);
+                        console.log(response.school);
+                        promptNewMember();
                     })
             }
             else {
@@ -121,13 +109,13 @@ function teamPrompt() {
                     .prompt([
                         {
                             type: 'input',
-                            message: `What is this ${name}'s Github Profile Name?`,
-                            name: 'engineerGit'
+                            message: `What is ${response.name}'s Github Profile Name?`,
+                            name: 'github'
                         }
                     ]).then(function (response) {
                         JSON.stringify(response);
-                        console.log(response.engineerGit);
-                        getEmailAndID(name);
+                        console.log(response.github);
+                        promptNewMember();
                     })
             }
         })
