@@ -2,37 +2,12 @@
 const Employee = require('./employee');
 
 class Engineer extends Employee {
-    constructor(gitHub) {
-
-        super(name, type, email, id);
-        this.gitHub = gitHub;
+    constructor(name, id, email, github) {
+        super(name, id, email);
+        this.github = github;
     }
+    getGithub() { return this.github }
+    getRole() { return 'Engineer' }
 }
 
-Engineer.getRole = function() {
-    return 'Engineer';
-}
-
-
-
-
-// class Vehicle {
-//     constructor(id, numberOfWheels, sound) {
-//       this.id = id;
-//       this.numberOfWheels = numberOfWheels;
-//       this.sound = sound;
-//     }
-  
-// class Boat extends Vehicle {
-//     constructor(id, type, crew) {
-//       super(id, 0, "bwom");
-//       this.type = type;
-//       this.crew = crew;
-//     }
-
-//     class Car extends Vehicle {
-//         constructor(id, color, passengers) {
-//           super(id, 4, "beep");
-//           this.color = color;
-//           this.passengers = passengers;
-//         }
+module.exports = Engineer
