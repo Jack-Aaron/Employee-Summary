@@ -5,12 +5,16 @@ const inquirer = require("inquirer");
 inquirer.registerPrompt('recursive', require('inquirer-recursive'));
 const path = require("path");
 const fs = require("fs");
+const util = require("util");
+
+const writeFileAsync = util.promisify(fs.writeFile);
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-let teamMemberName;
+
+const employees = [];
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -39,8 +43,13 @@ inquirer
         }
     ]).then(function (response) {
         JSON.stringify(response);
-        const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
-        console.log(manager);
+        const manager = new Manager(
+            response.name,
+            response.id,
+            response.email,
+            response.officeNumber
+        );
+        employees.push(manager);
         promptNewMember();
     })
 
@@ -56,6 +65,11 @@ function promptNewMember() {
         ]).then(function (response) {
             if (response.addAnotherMember === 'Yes') {
                 teamPrompt();
+            }
+            else {
+                const html = render(employees);
+                console.log(html);
+                // writeFileAsync(outputPath, html, "utf-8");
             }
         })
 }
@@ -98,8 +112,13 @@ function teamPrompt() {
                         }
                     ]).then(function (schoolResponse) {
                         JSON.stringify(schoolResponse);
-                        const intern = new Intern(response.name, response.id, response.email, schoolResponse.school);
-                        console.log(intern);
+                        const intern = new Intern(
+                            response.name,
+                            response.id,
+                            response.email,
+                            schoolResponse.school
+                        );
+                        employees.push(intern);
                         promptNewMember();
                     })
             }
@@ -113,8 +132,12 @@ function teamPrompt() {
                         }
                     ]).then(function (githubResponse) {
                         JSON.stringify(githubResponse);
-                        const engineer = new Engineer(response.name, response.id, response.email, githubResponse.github);
-                        console.log(engineer);
+                        const engineer = new Engineer(
+                            response.name,
+                            response.id,
+                            response.email,
+                            githubResponse.github);
+                        employees.push(engineer);
                         promptNewMember();
                     })
             }
