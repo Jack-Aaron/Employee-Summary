@@ -19,8 +19,18 @@ inquirer
     .prompt([
         {
             type: 'input',
-            message: 'What is the name of your team manager?',
-            name: 'teamManagerName'
+            message: 'What is the name of your Team Manager?',
+            name: 'name'
+        },
+        {
+            type: 'number',
+            message: 'What is the Team Manager\'s ID number?',
+            name: 'id'
+        },
+        {
+            type: 'input',
+            message: 'What is the Team Manager\'s email address?',
+            name: 'email'
         },
         {
             type: 'number',
@@ -29,12 +39,12 @@ inquirer
         }
     ]).then(function (response) {
         JSON.stringify(response);
-        console.log(response.teamManagerName);
-        getEmailAndID(response.teamManagerName, response.officeNumber);
+        const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
+        console.log(manager);
     })
 
 function getEmailAndID(name, officeNumber) {
-    inquirer
+    inquirer 
         .prompt([
             {
                 type: 'input',
