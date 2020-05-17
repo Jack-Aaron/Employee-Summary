@@ -23,14 +23,6 @@ const validateEmail = (email) => { return validator.validate(email) || '***Input
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-function validateInput(input) { return input !== ''; }
-
-function validateNumber(number) //https://stackoverflow.com/questions/57321266/how-to-test-inquirer-validation
-{
-    const reg = /^\d+$/;
-    return reg.test(number) || '***Input Must Be A Number***\n *Press Up Arrow and delete Line to try again.*';
-}
-
 inquirer
     .prompt([
         {
