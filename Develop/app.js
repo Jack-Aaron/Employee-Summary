@@ -6,15 +6,19 @@ inquirer.registerPrompt('recursive', require('inquirer-recursive'));
 const path = require("path");
 const fs = require("fs");
 const util = require("util");
-
-const writeFileAsync = util.promisify(fs.writeFile);
+const validator = require("email-validator");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const writeFileAsync = util.promisify(fs.writeFile);
 
 const employees = [];
+const reg = /^\d+$/; //https://stackoverflow.com/questions/57321266/how-to-test-inquirer-validation
+const validateInput = (input) => { return input !== '' || '*This entry cannot be blank.*' }
+const validateNumber = (number) => { return reg.test(number) || '***Input Must Be A Number***\n *Press Up Arrow and then delete last command to try again.*'; }
+const validateEmail = (email) => { return validator.validate(email) || '***Input Must Be A Valid Email Address***' }
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -45,7 +49,8 @@ inquirer
             type: 'input',
             message: '\nWhat is the Team Manager\'s email address?',
             name: 'email',
-            validate: validateInput
+
+            validate: validateEmail
         },
         {
             type: 'number',
@@ -108,7 +113,7 @@ function teamPrompt() {
                 type: 'input',
                 message: `\nWhat is Team Member\'s email address?`,
                 name: 'email',
-                validate: validateInput
+                validate: validateEmail
             },
             {
                 type: 'list',
